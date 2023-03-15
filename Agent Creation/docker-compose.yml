@@ -1,0 +1,26 @@
+version: '3'
+services:
+  agent-init:
+    image: "docker.io/nathanielhoaccedian/agent-init-container:latest"
+    environment:
+      - AGENT_ID=3a64cec9-588b-46f1-9306-7bdd5a6e7bb8
+      - AGENT_NAME=Mac-Transfer
+      - AGENT_DATA_BROKER=192.168.0.24
+      - AGENT_DATA_BROKER_PORT=55888
+      - TENANT=https://gsk.analytics.accedian.io
+      - TENANT_USER=dpearce@accedian.com
+      - TENANT_PASSWORD=
+    volumes:
+      - secrets:/run/secrets
+  sensor-actuate:
+    container_name: "Mac-Transfer"
+    image: "gcr.io/sky-agents/agent-transfer-amd64:r22.11"
+    environment:
+      - AGENT_MANAGEMENT_PROXY=192.168.0.24
+    volumes:
+      - secrets:/run/secrets
+    depends_on:
+      agent-init:
+        condition: service_completed_successfully
+volumes:
+   secrets:
