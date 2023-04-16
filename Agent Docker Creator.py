@@ -1,8 +1,10 @@
 import yaml
 
 # Read input data from YAML file
-with open('config.yaml', 'r') as file:
+with open('Agent Create.yaml', 'r') as file:
     input_data = yaml.safe_load_all(file)
+    for data in input_data:
+        print(data)
 
 # Generate a YAML file for each document in the input file
 for index, document in enumerate(input_data):
